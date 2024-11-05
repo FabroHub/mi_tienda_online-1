@@ -1,0 +1,71 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(22, 22, 22);
+}
+
+header {
+    text-align: center;
+    height: 100px;
+    width: auto;
+    background-color: rgb(216, 216, 216);
+    background: linear-gradient(270deg, rgb(10, 10, 10) 0%, rgb(240, 240, 240) 100%);
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Roboto', sans-serif;
+}
+
+header img {
+    width: 200px;
+    height: 85px;
+    margin-right: 20px;
+}
+
+header h1 {
+    text-align: center;
+    color: black;
+}
+
+header form input {
+    height: 50px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+ul{
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.li-productos{
+    list-style: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-top: 20px;
+    width: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius:50px;
+}
+
+.precioTotal{
+    font-size: 30px;
+    padding: 20px;
+    border-radius:50px;
+    width:auto;
+    background-color:white;
+}
+
+.celdas{
+    height: 50px;
+    padding: 20px;
+    width: 100%;
+}
