@@ -7,39 +7,41 @@ $usuario_id = $_SESSION['id']; // Asegúrate de que $usuario_id esté configurad
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'])) {
     $producto_id = (int)$_POST['producto_id'];
-    $cantidad = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 1; // Obtener la cantidad del POST, por defecto 1
-    if ($cantidad > 0) {
-        // Verifica si el producto ya está en el carrito
-        $stmt = $conn->prepare("SELECT * FROM carrito WHERE id_producto = :id_producto AND id_usuario = :id_usuario");
-        $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
-        $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            $stmt = $conn->prepare("UPDATE carrito SET cantidad = :cantidad WHERE id_producto = :id_producto AND id_usuario = :id_usuario");
-            $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
-            $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
-            $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
-            $stmt->execute();
-        } else {
-            // Si no está en el carrito, lo agrega
-            $stmt = $conn->prepare("INSERT INTO carrito (id_producto, id_usuario, cantidad) VALUES (:id_producto, :id_usuario, :cantidad)");
-            $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
-            $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
-            $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
-            $stmt->execute();
-        }
-    } else {
-        // Si la cantidad es 0, eliminar el producto del carrito
+    if (isset($_POST['eliminar'])) {
+        // Eliminar el producto del carrito
         $stmt = $conn->prepare("DELETE FROM carrito WHERE id_producto = :id_producto AND id_usuario = :id_usuario");
         $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
         $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
         $stmt->execute();
+    } else {
+        $cantidad = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 1; // Obtener la cantidad del POST, por defecto 1
+        if ($cantidad > 0) {
+            // Verifica si el producto ya está en el carrito
+            $stmt = $conn->prepare("SELECT * FROM carrito WHERE id_producto = :id_producto AND id_usuario = :id_usuario");
+            $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
+            $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $stmt = $conn->prepare("UPDATE carrito SET cantidad = :cantidad WHERE id_producto = :id_producto AND id_usuario = :id_usuario");
+                $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
+                $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
+                $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
+                $stmt->execute();
+            } else {
+                // Si no está en el carrito, lo agrega
+                $stmt = $conn->prepare("INSERT INTO carrito (id_producto, id_usuario, cantidad) VALUES (:id_producto, :id_usuario, :cantidad)");
+                $stmt->bindParam(':id_producto', $producto_id, PDO::PARAM_INT);
+                $stmt->bindParam(':id_usuario', $usuario_id, PDO::PARAM_INT);
+                $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+        }
     }
 }
 
 $stmt = $conn->prepare("
-    SELECT p.id, p.nombre, p.precioUnitario, p.imagen, c.cantidad
+    SELECT p.id, p.nombre, p.precioUnitario, p.imagen, p.stock, c.cantidad
     FROM carrito c
     JOIN productos p ON c.id_producto = p.id
     WHERE c.id_usuario = :id_usuario
@@ -67,6 +69,18 @@ foreach ($carrito as $producto) {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9e805df0a7.js" crossorigin="anonymous"></script>
     <script>
+        function updateQuantity(productId, quantity) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "carrito.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    updateTotal();
+                }
+            };
+            xhr.send("producto_id=" + productId + "&cantidad=" + quantity);
+        }
+
         function updateTotal() {
             const items = document.querySelectorAll('.li-productos');
             let total = 0;
@@ -84,7 +98,9 @@ foreach ($carrito as $producto) {
     <?php include '../includes2/header2.php'; ?>
     <a style="text-decoration:none; color:white; width:auto;" href='../public/public.php'><h2> <i class="fa-solid fa-left-long" style="color: #ffffff;"></i> Volver a la tienda</h2></a>
     <h1 style="display:flex; justify-content:center; color:#ffffff;">Carrito de Compras</h1>
-    
+    <form action="checkout.php" method="POST">
+        <button type="submit" style="border-radius: 50px; height:35px; width:200px; height:50px; display:flex; align-items: center; justify-content:center;"><h2>Realizar compra</h2></button>
+    </form>
     <ul>
         <?php foreach ($carrito as $producto): ?>
             <li class="li-productos" data-price="<?php echo htmlspecialchars($producto['precioUnitario']); ?>">
@@ -96,19 +112,18 @@ foreach ($carrito as $producto) {
                     <?php echo htmlspecialchars($producto['precioUnitario']); ?> €
                 </div>
                 <form method="POST" style="display:inline;">
-                    <input type="number" name="cantidad" value="<?php echo htmlspecialchars($producto['cantidad']); ?>" min="1" max="30" class="quantity" style="width: 50px; font-size:20px;" onchange="updateTotal()" oninput="updateTotal()">
+                    <input type="number" name="cantidad" value="<?php echo htmlspecialchars($producto['cantidad']); ?>" min="1" max="<?php echo htmlspecialchars($producto['stock']); ?>" class="quantity" style="width: 50px; font-size:20px;" onchange="updateQuantity(<?php echo $producto['id']; ?>, this.value)">
                     <input type="hidden" name="producto_id" value="<?php echo $producto['id']; ?>">
-                    <input type="hidden" name="en_carrito" value="1">
-                    <input type="hidden" name="cantidad" value="0">
-                    <input type="hidden" name="producto_id" value="<?php echo $producto['id']; ?>">
-                    <button type="submit">Eliminar</button>
+                    <button type="submit" name="eliminar" value="1">Eliminar</button>
                 </form>
             </li>
         <?php endforeach; ?>
     </ul>
     <div style="justify-content: end; display: flex; margin-right: 50px;">
+        
         <h2 class="precioTotal">Total: <span id="totalPrice"><?php echo htmlspecialchars($totalPrecio); ?> €</span></h2>
     </div>
+    
 </body>
 
 </html>

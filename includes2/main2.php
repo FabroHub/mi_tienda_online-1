@@ -13,7 +13,8 @@ try {
                 p.id,
                 p.nombre,
                 p.precioUnitario,
-                p.imagen
+                p.imagen,
+                p.stock
             FROM 
                 productos p
         ");
@@ -23,7 +24,8 @@ try {
                 p.id,
                 p.nombre,
                 p.precioUnitario,
-                p.imagen
+                p.imagen,
+                p.stock
             FROM 
                 productos p
             JOIN 
@@ -51,7 +53,7 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['detalle_producto'])) {
-            header('Location:detalle_producto.php?nombre=<?php echo urlencode($row["nombre"]); ?>&precioUnitario=<?php echo urlencode($row["precioUnitario"]); ?>&imagen=<?php echo urlencode($row["imagen"]); ?>');
+            header('Location:detalle_producto.php?nombre=<?php echo urlencode($row["nombre"]); ?>&precioUnitario=<?php echo urlencode($row["precioUnitario"]); ?>&imagen=<?php echo urlencode($row["imagen"]); ?>&stock=<?php echo urlencode($row["stock"]); ?>');
             exit;
         }
     }
@@ -157,7 +159,7 @@ try {
                 <h3 style='color:black;'><?php echo htmlspecialchars($row["nombre"]); ?></h3>
                 <h3 style='color:black; border: 1px solid black; align-items:center; text-align:center; margin-left:20%; margin-right:20%; margin-bottom:0;'> Precio: <?php echo htmlspecialchars($row["precioUnitario"]); ?> €</h3>
                 <form style="display:flex; justify-content:space-around; align-items:center; margin-top:20px; margin-bottom:20px;">
-                    <input type='button' name='detalle_producto' value="Detalle del Producto" onclick="window.location.href='../public/detalle_producto.php?nombre=<?php echo urlencode($row['nombre']); ?>&precioUnitario=<?php echo urlencode($row['precioUnitario']); ?>&imagen=<?php echo urlencode($row['imagen']); ?>'">
+                    <input type='button' name='detalle_producto' value="Detalle del Producto" onclick="window.location.href='../public/detalle_producto.php?nombre=<?php echo urlencode($row['nombre']); ?>&precioUnitario=<?php echo urlencode($row['precioUnitario']); ?>&imagen=<?php echo urlencode($row['imagen']); ?>&stock=<?php echo urlencode($row['stock']); ?>'">
                     <div>
                         <input type='checkbox' id='checkbox_<?php echo $producto_id; ?>' name='en_carrito' <?php if (in_array($producto_id, $carrito)) echo 'checked'; ?> onchange="toggleCart(<?php echo $producto_id; ?>, this.checked)">
                         <label for='checkbox_<?php echo $producto_id; ?>' style="cursor: pointer;">Agregar al carrito</label>

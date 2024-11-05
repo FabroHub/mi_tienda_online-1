@@ -14,14 +14,17 @@ if ($_SESSION['rol'] == "Admin") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $precioUnitario = $_POST['precioUnitario'];
-    $imagen = $_POST['imagen'];
-    $stock = $_POST['stock'];
+    foreach ($_POST['productos'] as $producto) {
+        $id = $producto['id'];
+        $nombre = $producto['nombre'];
+        $precioUnitario = $producto['precioUnitario'];
+        $imagen = $producto['imagen'];
+        $stock = $producto['stock'];
 
-    $sql = "UPDATE productos SET nombre='$nombre', precioUnitario='$precioUnitario', imagen='$imagen', stock='$stock' WHERE id=$id";
-    $conn->query($sql);
+        $stmt = $conn->prepare("UPDATE productos SET nombre=?, precioUnitario=?, imagen=?, stock=? WHERE id=?");
+        $stmt->bind_param("sdsii", $nombre, $precioUnitario, $imagen, $stock, $id);
+        $stmt->execute();
+    }
 }
 
 $result = $conn->query("SELECT * FROM productos");
@@ -45,27 +48,29 @@ $result = $conn->query("SELECT * FROM productos");
     </a>
     <h1 style="display:flex; justify-content:center; color:white;">Editar Productos</h1>
     <div style="display:flex; justify-content:center;">
-        <table style="background-color:white; padding:20px; border-radius:50px;">
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio Unitario</th>
-                <th>Imagen</th>
-                <th>Stock</th>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()): ?>
+        <form method="POST">
+            <table style="background-color:white; padding:20px; border-radius:50px;">
                 <tr>
-                    <form method="POST">
-                        <td><input type="hidden" name="id" value="<?= $row['id'] ?>"><?= $row['id'] ?></td>
-                        <td><input class="celdas" required type="text" name="nombre" value="<?= $row['nombre'] ?>"></td>
-                        <td><input class="celdas" required type="text" name="precioUnitario" value="<?= $row['precioUnitario'] ?>"></td>
-                        <td><input class="celdas" required type="text" name="imagen" value="<?= trim($row['imagen']) ?>"></td>
-                        <td><input class="celdas" required type="text" name="stock" value="<?= $row['stock'] ?>"></td>
-                        <td><input class="celdas" type="submit" value="Actualizar"></td>
-                    </form>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio Unitario</th>
+                    <th>Imagen</th>
+                    <th>Stock</th>
                 </tr>
-            <?php endwhile; ?>
-        </table>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><input type="hidden" name="productos[<?= $row['id'] ?>][id]" value="<?= $row['id'] ?>"><?= $row['id'] ?></td>
+                        <td><input class="celdas" required type="text" name="productos[<?= $row['id'] ?>][nombre]" value="<?= htmlspecialchars($row['nombre']) ?>"></td>
+                        <td><input class="celdas" required type="text" name="productos[<?= $row['id'] ?>][precioUnitario]" value="<?= htmlspecialchars($row['precioUnitario']) ?>"></td>
+                        <td><input class="celdas" required type="text" name="productos[<?= $row['id'] ?>][imagen]" value="<?= htmlspecialchars(trim($row['imagen'])) ?>"></td>
+                        <td><input class="celdas" required type="text" name="productos[<?= $row['id'] ?>][stock]" value="<?= htmlspecialchars($row['stock']) ?>"></td>
+                    </tr>
+                <?php endwhile; ?>
+            </table>
+            <div style="display:flex; justify-content:center; margin-top:20px;">
+                <input class="celdas" type="submit" value="Actualizar Todos">
+            </div>
+        </form>
     </div>
 </body>
 

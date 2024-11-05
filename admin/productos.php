@@ -22,13 +22,15 @@ try {
             $precioUnitario = filter_var($_POST['precioUnitario'], FILTER_DEFAULT);
             $imagen = filter_var($_POST["imagen"], FILTER_DEFAULT);
             $id_categoria = filter_var($_POST['id_categoria'], FILTER_DEFAULT);
+            $stock = filter_var($_POST['stock'], FILTER_DEFAULT);
 
-            if ($nombre != null && $precioUnitario != null && $imagen != null) {
-                $sql = "INSERT INTO productos (nombre, precioUnitario, imagen) VALUES (:nombre, :precioUnitario, :imagen)";
+            if ($nombre != null && $precioUnitario != null && $imagen != null && $stock != null) {
+                $sql = "INSERT INTO productos (nombre, precioUnitario, imagen, stock) VALUES (:nombre, :precioUnitario, :imagen, :stock)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(":nombre", $nombre);
                 $stmt->bindParam(":precioUnitario", $precioUnitario);
                 $stmt->bindParam(":imagen", $imagen);
+                $stmt->bindParam(":stock", $stock);
                 $stmt->execute();
 
                 // Obtener el ID del producto recién creado
@@ -96,12 +98,14 @@ try {
                     <div>
                         <label for="nombre">Nombre:</label><br><br>
                         <label for="apellidos">Apellidos:</label><br><br>
-                        <label for="image">Url de la imagen: </label>
+                        <label for="image">Url de la imagen: </label><br><br>
+                        <label for="stock">Stock: </label>
                     </div>
                     <div>
-                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="nombre" id="nombre" placeholder="Nombre del producto"><br><br>
-                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="precioUnitario" id="precioUnitario" placeholder="Precio"><br><br>
-                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="imagen" id="imagen" placeholder="url de la imagen">
+                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="nombre" id="nombre" placeholder="Nombre del producto" required><br><br>
+                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="precioUnitario" id="precioUnitario" placeholder="Precio" required><br><br>
+                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="imagen" id="imagen" placeholder="url de la imagen" required><br><br>
+                        <input style="border-radius: 10px; font-size: 20px;" type="text" name="stock" id="stock" placeholder="Stock" required>
                     </div>
                 </div>
                 <div style="display:flex; justify-content:space-between; width:100%; margin-top:50px;">

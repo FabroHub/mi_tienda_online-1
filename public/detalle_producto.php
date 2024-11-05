@@ -3,8 +3,12 @@ try {
     $nombre = isset($_GET['nombre']) ? htmlspecialchars($_GET['nombre']) : '';
     $precio = isset($_GET['precioUnitario']) ? htmlspecialchars($_GET['precioUnitario']) : '';
     $imagen = isset($_GET['imagen']) ? htmlspecialchars($_GET['imagen']) : '';
+    $stock = isset($_GET['stock']) ? htmlspecialchars($_GET['stock']) : '';
 
-    if (empty($nombre) || empty($precio) || empty($imagen)) {
+    // Log the values to check if they are being passed correctly
+    error_log("Nombre: $nombre, Precio: $precio, Imagen: $imagen, Stock: $stock");
+
+    if (empty($nombre) || empty($precio) || empty($imagen) || empty($stock)) {
         throw new Exception("Datos del producto incompletos.");
     }
 } catch (Exception $ex) {
@@ -38,6 +42,7 @@ try {
         <img src='<?php echo $imagen; ?>' alt='Imagen del producto' style='width:200px; height:150px; margin-top:20px;'>
         <h3 style='color:black;'><?php echo $nombre; ?></h3>
         <h3 style='color:black;'> Precio: <?php echo $precio; ?> €</h3>
+        <h3 style='color:black;'> Stock: <?php echo $stock; ?></h3>
     </div>
     </div>
 

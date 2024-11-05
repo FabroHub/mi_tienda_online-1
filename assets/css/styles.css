@@ -60,7 +60,7 @@ ul{
     font-size: 30px;
     padding: 20px;
     border-radius:50px;
-    width:auto;
+    width:200px;
     background-color:white;
 }
 
@@ -68,4 +68,7 @@ ul{
     height: 50px;
     padding: 20px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

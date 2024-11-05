@@ -13,7 +13,8 @@ try {
                 p.id,
                 p.nombre,
                 p.precioUnitario,
-                p.imagen
+                p.imagen,
+                p.stock
             FROM 
                 productos p
         ");
@@ -24,7 +25,8 @@ try {
                 p.id,
                 p.nombre,
                 p.precioUnitario,
-                p.imagen
+                p.imagen,
+                p.stock
             FROM 
                 productos p
             JOIN 
@@ -104,7 +106,8 @@ try {
             $nombre = urlencode($row["nombre"]);
             $precio = urlencode($row["precioUnitario"]);
             $imagen = urlencode($row["imagen"]);
-            echo "<a href='../public/detalle_producto2.php?nombre=$nombre&precioUnitario=$precio&imagen=$imagen' class='product-item'>
+            $stock = urlencode($row["stock"]);
+            echo "<a href='../public/detalle_producto2.php?nombre=$nombre&precioUnitario=$precio&imagen=$imagen&stock=$stock' class='product-item'>
             <img src='" . htmlspecialchars($row['imagen']) . "' alt='Imagen del producto'>
             <h3 style='color:black;'>" . htmlspecialchars($row["nombre"]) . "</h3>
             <h3 style='color:black;'> Precio: " . htmlspecialchars($row["precioUnitario"]) . " €</h3>

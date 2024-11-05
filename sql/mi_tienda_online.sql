@@ -66,7 +66,7 @@ CREATE TABLE `productos` (
   `id` int(11) NOT NULL auto_increment primary key unique key,
   `nombre` varchar(256) NOT NULL unique key,
   `precioUnitario` float NOT NULL,
-  `imagen` varbinary(8000) NOT NULL,
+  `imagen` varchar(8000) NOT NULL,  -- Change varbinary to varchar
   `stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
