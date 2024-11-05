@@ -29,7 +29,7 @@ try {
     <script src="https://kit.fontawesome.com/9e805df0a7.js" crossorigin="anonymous"></script>
     <style>
         .back-button {
-            color: #007BFF; /* Blue color */
+            color: white; /* Changed color to white */
             text-decoration: none;
         }
 
