@@ -51,6 +51,10 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
+    <link rel="stylesheet" href="../assets/css/styles3.css">
+    <link rel="icon" type="image/x-icon" href="https://cdn.pixabay.com/photo/2014/04/03/11/58/needle-312738_1280.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9e805df0a7.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -75,7 +79,9 @@ try {
             <h3>Total: <?= $totalPrecio ?> €</h3>
         </div>
     </div>
-
-    <a href="public.php">Volver a la tienda</a>
+<div style="display:flex; justify-content:center; align-items:center; width:auto;">
+<a href="public.php">Volver a la tienda</a>
+</div>
+    
 </body>
 </html>

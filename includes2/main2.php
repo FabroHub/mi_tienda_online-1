@@ -100,12 +100,106 @@ try {
             border: 2px solid black;
             box-shadow: 3px 2px 5px black;
             text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
         }
 
         .product-item img {
             width: 200px;
             height: 150px;
             margin-top: 20px;
+        }
+
+        .product-item h3 {
+            color: black;
+        }
+
+        .product-item .price {
+            border: 1px solid black;
+            align-items: center;
+            text-align: center;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-bottom: 0;
+        }
+
+        .product-item .cart-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .product-item .cart-section input[type='button'] {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-item .cart-section input[type='button']:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .product-item .cart-section .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .product-item .cart-section .checkbox-container input[type='checkbox'] {
+            display: none;
+        }
+
+        .product-item .cart-section .checkbox-container label {
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .product-item .cart-section .checkbox-container label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            background-color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-item .cart-section .checkbox-container input[type='checkbox']:checked + label::before {
+            background-color: #007BFF;
+        }
+
+        .product-item .cart-section .checkbox-container label::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-item .cart-section .checkbox-container input[type='checkbox']:checked + label::after {
+            opacity: 1;
         }
 
         @media (max-width: 1200px) {
@@ -156,15 +250,15 @@ try {
             <?php $producto_id = (int)$row["id"]; ?>
             <div class="product-item">
                 <img src='<?php echo htmlspecialchars($row['imagen']); ?>' alt='Imagen del producto'>
-                <h3 style='color:black;'><?php echo htmlspecialchars($row["nombre"]); ?></h3>
-                <h3 style='color:black; border: 1px solid black; align-items:center; text-align:center; margin-left:20%; margin-right:20%; margin-bottom:0;'> Precio: <?php echo htmlspecialchars($row["precioUnitario"]); ?> €</h3>
-                <form style="display:flex; justify-content:space-around; align-items:center; margin-top:20px; margin-bottom:20px;">
+                <h3><?php echo htmlspecialchars($row["nombre"]); ?></h3>
+                <h3 class="price"> Precio: <?php echo htmlspecialchars($row["precioUnitario"]); ?> €</h3>
+                <div class="cart-section">
                     <input type='button' name='detalle_producto' value="Detalle del Producto" onclick="window.location.href='../public/detalle_producto.php?nombre=<?php echo urlencode($row['nombre']); ?>&precioUnitario=<?php echo urlencode($row['precioUnitario']); ?>&imagen=<?php echo urlencode($row['imagen']); ?>&stock=<?php echo urlencode($row['stock']); ?>'">
-                    <div>
+                    <div class="checkbox-container">
                         <input type='checkbox' id='checkbox_<?php echo $producto_id; ?>' name='en_carrito' <?php if (in_array($producto_id, $carrito)) echo 'checked'; ?> onchange="toggleCart(<?php echo $producto_id; ?>, this.checked)">
-                        <label for='checkbox_<?php echo $producto_id; ?>' style="cursor: pointer;">Agregar al carrito</label>
+                        <label for='checkbox_<?php echo $producto_id; ?>'>Agregar al carrito</label>
                     </div>
-                </form>
+                </div>
             </div>
 
         <?php endforeach; ?>

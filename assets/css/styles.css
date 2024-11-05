@@ -1,8 +1,77 @@
-body{
+body {
     font-family: 'Roboto', sans-serif;
     background-color: rgb(22, 22, 22);
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
+a {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #0056b3;
+}
+
+.back-button {
+    text-decoration: none;
+    color: white;
+    width: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+.product-title {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.product-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px; /* Adjusted margin-top */
+}
+
+.product-card {
+    background-color: white;
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-card h3 {
+    color: #333;
+    margin: 15px 0;
+}
+
+/* Existing styles */
 header {
     text-align: center;
     height: 100px;
@@ -34,8 +103,7 @@ header form input {
     font-size: 15px;
 }
 
-
-ul{
+ul {
     padding: 0;
     justify-content: center;
     align-items: center;
@@ -43,8 +111,8 @@ ul{
     flex-wrap: wrap;
 }
 
-.li-productos{
-    list-style: none; 
+.li-productos {
+    list-style: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,18 +121,18 @@ ul{
     width: auto;
     padding: 20px;
     background-color: white;
-    border-radius:50px;
+    border-radius: 50px;
 }
 
-.precioTotal{
+.precioTotal {
     font-size: 30px;
     padding: 20px;
-    border-radius:50px;
-    width:200px;
-    background-color:white;
+    border-radius: 50px;
+    width: 200px;
+    background-color: white;
 }
 
-.celdas{
+.celdas {
     height: 50px;
     padding: 20px;
     width: 100%;

@@ -25,27 +25,35 @@ try {
     <title>Detalle del Producto</title>
     <link rel="icon" type="image/x-icon" href="https://cdn.pixabay.com/photo/2020/04/20/21/18/tree-5069963_960_720.jpg">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="icon" type="image/x-icon" href="https://cdn.pixabay.com/photo/2020/04/20/21/18/tree-5069963_960_720.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9e805df0a7.js" crossorigin="anonymous"></script>
+    <style>
+        .back-button {
+            color: #007BFF; /* Blue color */
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-<a style="text-decoration:none; color:white; width:auto;" href='../public/public.php'>
-        <h2> <i class="fa-solid fa-left-long" style="color: #ffffff;"></i> Volver a la tienda</h2>
+    <a href='../public/public.php' class="back-button">
+        <h2><i class="fa-solid fa-left-long"></i> Volver a la tienda</h2>
     </a>
 
-    <h1 style="display:flex; justify-content:center; color:white;">Detalle del Producto</h1>
+    <h1 class="product-title">Detalle del Producto</h1>
 
-    <div style="display:flex; justify-content:center;">
-    <div style='background-color:white; width:300px; height:auto; text-align:center;border-radius:30px; border: 2px solid black;'>
-        <img src='<?php echo $imagen; ?>' alt='Imagen del producto' style='width:200px; height:150px; margin-top:20px;'>
-        <h3 style='color:black;'><?php echo $nombre; ?></h3>
-        <h3 style='color:black;'> Precio: <?php echo $precio; ?> €</h3>
-        <h3 style='color:black;'> Stock: <?php echo $stock; ?></h3>
+    <div class="product-detail">
+        <div class="product-card">
+            <img src='<?php echo $imagen; ?>' alt='Imagen del producto'>
+            <h3><?php echo $nombre; ?></h3>
+            <h3>Precio: <?php echo $precio; ?> €</h3>
+            <h3>Stock: <?php echo $stock; ?></h3>
+        </div>
     </div>
-    </div>
-
 </body>
 
 </html>
