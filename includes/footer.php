@@ -6,6 +6,6 @@
     <title>footer</title>
 </head>
 <footer>
-    <p>&copy;todoencarpinteria.ess</p>
+    <p>&copy;todoencarpinteria.es</p>
 </footer>
 </html>
