@@ -104,7 +104,7 @@ try {
             $nombre = urlencode($row["nombre"]);
             $precio = urlencode($row["precioUnitario"]);
             $imagen = urlencode($row["imagen"]);
-            echo "<a href='../public/detalle_producto.php?nombre=$nombre&precioUnitario=$precio&imagen=$imagen' class='product-item'>
+            echo "<a href='../public/detalle_producto2.php?nombre=$nombre&precioUnitario=$precio&imagen=$imagen' class='product-item'>
             <img src='" . htmlspecialchars($row['imagen']) . "' alt='Imagen del producto'>
             <h3 style='color:black;'>" . htmlspecialchars($row["nombre"]) . "</h3>
             <h3 style='color:black;'> Precio: " . htmlspecialchars($row["precioUnitario"]) . " €</h3>
